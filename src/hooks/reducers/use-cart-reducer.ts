@@ -1,4 +1,3 @@
-import { act } from "react-dom/test-utils";
 import { db } from "../../data/db";
 import { CartItem, Guitar } from "../../types";
 

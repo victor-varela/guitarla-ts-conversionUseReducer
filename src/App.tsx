@@ -1,11 +1,16 @@
+import { useReducer } from "react"
 import Guitar from "./components/Guitar"
 import Header from "./components/Header"
 import { useCart } from './hooks/useCart'
+import { cartReducer, initialState } from "./hooks/reducers/use-cart-reducer"
 
 function App() {
 
-  const { data, cart, addToCart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart, isEmpty, cartTotal } = useCart()
+  const { cart, addToCart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart, isEmpty, cartTotal } = useCart()
+  const [state, dispatch] = useReducer(cartReducer, initialState)
 
+  console.log(state);
+  
   return (
     <>
       <Header 
@@ -22,7 +27,7 @@ function App() {
           <h2 className="text-center">Nuestra Colección</h2>
 
           <div className="row mt-5">
-              {data.map((guitar) => (
+              {state.data.map((guitar) => (
                   <Guitar 
                     key={guitar.id}
                     guitar={guitar}
@@ -44,3 +49,12 @@ function App() {
 }
 
 export default App
+
+
+/*
+Se importa el hook useReducer de react, destructuring como arreglo de state y dispatch y se pasan los parametros al Hook (cartReducer, initialState)
+
+Vamos reemplazando la funcionalidad del custom hook hacia el reducer: 
+    Primero en el template (vista de la app) cuando renderizamos por medio de db--- nos valemos del reducer
+
+*/
