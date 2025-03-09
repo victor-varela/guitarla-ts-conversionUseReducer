@@ -6,10 +6,8 @@ import { cartReducer, initialState } from "./hooks/reducers/use-cart-reducer"
 
 function App() {
 
-  const { cart, addToCart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart, isEmpty, cartTotal } = useCart()
+  const { cart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart, isEmpty, cartTotal } = useCart()
   const [state, dispatch] = useReducer(cartReducer, initialState)
-
-  console.log(state);
   
   return (
     <>
@@ -31,7 +29,7 @@ function App() {
                   <Guitar 
                     key={guitar.id}
                     guitar={guitar}
-                    addToCart={addToCart}
+                    dispatch={dispatch}
                   />
               ))}
               
@@ -56,5 +54,6 @@ Se importa el hook useReducer de react, destructuring como arreglo de state y di
 
 Vamos reemplazando la funcionalidad del custom hook hacia el reducer: 
     Primero en el template (vista de la app) cuando renderizamos por medio de db--- nos valemos del reducer
+    Pasamos el dispatch al componente que lo va a necesitar para 'disparar' la accione, en este caso el componente Guitar
 
 */

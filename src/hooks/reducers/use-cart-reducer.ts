@@ -1,72 +1,78 @@
 import { db } from "../../data/db";
 import { CartItem, Guitar } from "../../types";
 
-export type CartActions = 
-{type: 'add-to-cart', payload:{item: Guitar}}|
-{type: 'remove-from-cart', payload: {item: Guitar['id']}}|
-{type: 'decrease-quantity', payload:{item: Guitar['id']} } |
-{type: 'increase-quantity', payload:{item: Guitar['id']} } |
-{type: 'clear-cart'} 
-
+export type CartActions =
+  | { type: "add-to-cart"; payload: { item: Guitar } }
+  | { type: "remove-from-cart"; payload: { item: Guitar["id"] } }
+  | { type: "decrease-quantity"; payload: { item: Guitar["id"] } }
+  | { type: "increase-quantity"; payload: { item: Guitar["id"] } }
+  | { type: "clear-cart" };
 
 export type CartState = {
-    cart: CartItem[],
-    data: Guitar[]
-}
+  cart: CartItem[];
+  data: Guitar[];
+};
 
-export const initialState : CartState = {
-    data: db,
-    cart: []
-}
+export const initialState: CartState = {
+  data: db,
+  cart: [],
+};
 
+const MAX_ITEMS = 5;
 
-export const cartReducer = (
-        state: CartState = initialState,
-        action: CartActions
-    )=>{
+export const cartReducer = (state: CartState = initialState, action: CartActions) => {
+  if (action.type === "add-to-cart") {
+    //aca va la logica
+    const itemExists = state.cart.find(guitar => guitar.id === action.payload.item.id);
+    console.log(itemExists);
 
-        if(action.type === 'add-to-cart'){
-            //aca va la logica
-
-
-            return{
-                ...state
-            }
+    let updatedCart: CartItem[] = [];
+    if (itemExists) {
+      // existe en el carrito
+      updatedCart = state.cart.map(item => {
+        if (item.id === action.payload.item.id && item.quantity < MAX_ITEMS) {
+          return { ...item, quantity: item.quantity + 1 };
+        } else {
+          return item;
         }
-
-        if (action.type === 'increase-quantity'){
-
-            return{
-                ...state
-            }
-        }
-
-        if (action.type === 'decrease-quantity'){
-
-            return{
-                ...state
-            }
-        }
-
-        if (action.type === 'remove-from-cart'){
-
-
-            return{
-                ...state
-            }
-        }
-
-        if (action.type === 'clear-cart'){
-
-            return{
-                ...state
-            }
-        }
-
-        return state
+      });
+    } else {
+      const newItem: CartItem = { ...action.payload.item, quantity: 1 };
+      updatedCart = [...state.cart, newItem];
     }
 
+    return {
+      ...state,
+      cart: updatedCart,
+    };
+  }
 
+  if (action.type === "increase-quantity") {
+    return {
+      ...state,
+    };
+  }
+
+  if (action.type === "decrease-quantity") {
+    return {
+      ...state,
+    };
+  }
+
+  if (action.type === "remove-from-cart") {
+    return {
+      ...state,
+    };
+  }
+
+  if (action.type === "clear-cart") {
+    return {
+      ...state,
+    };
+  }
+
+  return state;
+};
 
 /*
 Para crear un reducer:
@@ -77,6 +83,6 @@ Para crear un reducer:
 3. Definimos la funcion reducer --> es la funcin que UNE state y acciones. export const myReducer = ()=> {} la funcion recibe 2 parametros : state y action. state es de tipo CartState que definimos como paso intermedio y la inicializamos a initialState y action es de tipo CartAction. Esto nos ayuda a tener el autocompletado de Ts. Como nos ayuda? pues cuando empezamos a definir la actiones es 
 if (action.type ===''aca Ts nos muestra las acciones disponibles)
 
-Nota: los types los declaramos con pascalCase primer letra Mayuscula
+Nota: los types los declaramos con PascalCase primer letra Mayuscula
 
 */
