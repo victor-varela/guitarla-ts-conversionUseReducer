@@ -1,15 +1,16 @@
 import { useMemo } from "react";
-import type { CartItem, Guitar } from "../types";
+import type { CartItem, Guitar} from "../types";
+import type { CartActions } from "../hooks/reducers/use-cart-reducer";
 
 type HeaderProps = {
   cart: CartItem[];
-  removeFromCart: (id: Guitar["id"]) => void;
   decreaseQuantity: (id: Guitar["id"]) => void;
   increaseQuantity: (id: Guitar["id"]) => void;
   clearCart: () => void;
+  dispatch: React.Dispatch<CartActions>
 };
 
-export default function Header({ cart, removeFromCart, decreaseQuantity, increaseQuantity, clearCart }: HeaderProps) {
+export default function Header({ cart, decreaseQuantity, increaseQuantity, clearCart, dispatch }: HeaderProps) {
   const cartTotal = useMemo(() => cart.reduce((total, item) => total + item.quantity * item.price, 0), [cart]);
   return (
     <header className="py-5 header">
@@ -68,7 +69,7 @@ export default function Header({ cart, removeFromCart, decreaseQuantity, increas
                               <button
                                 className="btn btn-danger"
                                 type="button"
-                                onClick={() => removeFromCart(guitar.id)}
+                                onClick={() => dispatch({type: 'remove-from-cart', payload:{item: guitar.id}})}
                               >
                                 X
                               </button>

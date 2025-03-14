@@ -61,8 +61,11 @@ export const cartReducer = (state: CartState = initialState, action: CartActions
   }
 
   if (action.type === "remove-from-cart") {
+
+    let updatedCart = state.cart.filter(guitar => guitar.id !== action.payload.item)
     return {
       ...state,
+      cart: updatedCart
     };
   }
 
@@ -86,4 +89,20 @@ if (action.type ===''aca Ts nos muestra las acciones disponibles)
 
 Nota: los types los declaramos con PascalCase primer letra Mayuscula
 
+La LOGICA: la logica en las actions tiene una estructura, siempre hay que retornar 
+
+ if (action.type === "some-action") {
+  
+  aca va la logica
+
+    return {
+      ...state, --> siempre por default para que react note el cambio y renderice el componente. Se usa el spread para copiar el estado anterior y evitar modificarlo directamente. Luego a esta estructura basica que difinimos cuando vamos haciendo el reducer le agregamos la logica a medida que llegamos a ese punto en el codigo
+    };
+  }
+
+  Usamos la propiedad cart que habiamos definido como el estado y eso es lo que vamos a actualizar a medida que ejecutamos las acciones del reudcer. NOs valemos de una let o const (segun sea el caso) updatedCart para asignarle ese valor a cart
+
+
+
 */
+
