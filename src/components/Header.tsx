@@ -4,7 +4,6 @@ import type { CartActions } from "../hooks/reducers/use-cart-reducer";
 
 type HeaderProps = {
   cart: CartItem[];
-  clearCart: () => void;
   dispatch: React.Dispatch<CartActions>;
 };
 
