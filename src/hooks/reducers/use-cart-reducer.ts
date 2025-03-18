@@ -50,7 +50,7 @@ export const cartReducer = (state: CartState = initialState, action: CartActions
   }
 
   if (action.type === "increase-quantity") {
-    const updatedCart = state.cart.map(item => {
+    const cart = state.cart.map(item => {
       if (item.id === action.payload.item && item.quantity < MAX_ITEMS) {
         return {
           ...item,
@@ -62,7 +62,7 @@ export const cartReducer = (state: CartState = initialState, action: CartActions
 
     return {
       ...state,
-      cart: updatedCart,
+      cart,
     };
   }
 
@@ -78,7 +78,7 @@ export const cartReducer = (state: CartState = initialState, action: CartActions
     });
     return {
       ...state,
-      cart: updatedCart
+      cart: updatedCart,
     };
   }
 
@@ -92,8 +92,10 @@ export const cartReducer = (state: CartState = initialState, action: CartActions
   }
 
   if (action.type === "clear-cart") {
+    const cart: CartItem[] = [];
     return {
       ...state,
+      cart,
     };
   }
 

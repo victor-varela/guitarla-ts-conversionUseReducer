@@ -1,16 +1,14 @@
 import { useMemo } from "react";
-import type { CartItem, Guitar } from "../types";
+import type { CartItem } from "../types";
 import type { CartActions } from "../hooks/reducers/use-cart-reducer";
 
 type HeaderProps = {
   cart: CartItem[];
-  decreaseQuantity: (id: Guitar["id"]) => void;
-  increaseQuantity: (id: Guitar["id"]) => void;
   clearCart: () => void;
   dispatch: React.Dispatch<CartActions>;
 };
 
-export default function Header({ cart, decreaseQuantity, increaseQuantity, clearCart, dispatch }: HeaderProps) {
+export default function Header({ cart, dispatch }: HeaderProps) {
   const cartTotal = useMemo(() => cart.reduce((total, item) => total + item.quantity * item.price, 0), [cart]);
   return (
     <header className="py-5 header">
@@ -52,7 +50,7 @@ export default function Header({ cart, decreaseQuantity, increaseQuantity, clear
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => dispatch({type:'decrease-quantity', payload:{item: guitar.id}})}
+                                onClick={() => dispatch({ type: "decrease-quantity", payload: { item: guitar.id } })}
                               >
                                 -
                               </button>
@@ -82,12 +80,11 @@ export default function Header({ cart, decreaseQuantity, increaseQuantity, clear
                     <p className="text-end">
                       Total pagar: <span className="fw-bold">${cartTotal}</span>
                     </p>
+                    <button className="btn btn-dark w-100 mt-3 p-2" onClick={() => dispatch({ type: "clear-cart" })}>
+                      Vaciar Carrito
+                    </button>
                   </>
                 )}
-
-                <button className="btn btn-dark w-100 mt-3 p-2" onClick={clearCart}>
-                  Vaciar Carrito
-                </button>
               </div>
             </div>
           </nav>
