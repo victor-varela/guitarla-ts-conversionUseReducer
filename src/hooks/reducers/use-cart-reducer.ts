@@ -92,10 +92,9 @@ export const cartReducer = (state: CartState = initialState, action: CartActions
   }
 
   if (action.type === "clear-cart") {
-    const cart: CartItem[] = [];
     return {
       ...state,
-      cart,
+      cart: []
     };
   }
 
