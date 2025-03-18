@@ -44,6 +44,6 @@ Se importa el hook useReducer de react, destructuring como arreglo de state y di
 
 Vamos reemplazando la funcionalidad del custom hook hacia el reducer: 
     Primero en el template (vista de la app) cuando renderizamos por medio de db--- nos valemos del reducer
-    Pasamos el dispatch al componente que lo va a necesitar para 'disparar' la accione, en este caso el componente Guitar
+    Pasamos el dispatch al componente que lo va a necesitar para 'disparar' la acciones, en este caso el componente Guitar
 
 */

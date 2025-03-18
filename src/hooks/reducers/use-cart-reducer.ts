@@ -19,10 +19,11 @@ export const initialState: CartState = {
 };
 
 const MAX_ITEMS = 5;
+const MIN_ITEMS = 1;
 
 export const cartReducer = (state: CartState = initialState, action: CartActions) => {
   if (action.type === "add-to-cart") {
-    const {id: itemId}= action.payload.item
+    const { id: itemId } = action.payload.item;
     //aca va la logica
     const itemExists = state.cart.find(guitar => guitar.id === itemId);
     console.log(itemExists);
@@ -49,23 +50,44 @@ export const cartReducer = (state: CartState = initialState, action: CartActions
   }
 
   if (action.type === "increase-quantity") {
+    const updatedCart = state.cart.map(item => {
+      if (item.id === action.payload.item && item.quantity < MAX_ITEMS) {
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      }
+      return item;
+    });
+
     return {
       ...state,
+      cart: updatedCart,
     };
   }
 
   if (action.type === "decrease-quantity") {
+    const updatedCart = state.cart.map(item => {
+      if (item.id === action.payload.item && item.quantity > MIN_ITEMS) {
+        return {
+          ...item,
+          quantity: item.quantity - 1,
+        };
+      }
+      return item;
+    });
     return {
       ...state,
+      cart: updatedCart
     };
   }
 
   if (action.type === "remove-from-cart") {
-
-    let updatedCart = state.cart.filter(guitar => guitar.id !== action.payload.item)
+    const { item } = action.payload;
+    const cart = state.cart.filter(guitar => guitar.id !== item);
     return {
       ...state,
-      cart: updatedCart
+      cart,
     };
   }
 
@@ -94,6 +116,8 @@ La LOGICA: la logica en las actions tiene una estructura, siempre hay que retorn
  if (action.type === "some-action") {
   
   aca va la logica
+  
+      **nota: const {item} = action.payload --> se lee asi: de action.payload voy a extraer item
 
     return {
       ...state, --> siempre por default para que react note el cambio y renderice el componente. Se usa el spread para copiar el estado anterior y evitar modificarlo directamente. Luego a esta estructura basica que difinimos cuando vamos haciendo el reducer le agregamos la logica a medida que llegamos a ese punto en el codigo
@@ -105,4 +129,3 @@ La LOGICA: la logica en las actions tiene una estructura, siempre hay que retorn
 
 
 */
-

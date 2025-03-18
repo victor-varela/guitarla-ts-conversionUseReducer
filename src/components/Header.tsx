@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { CartItem, Guitar} from "../types";
+import type { CartItem, Guitar } from "../types";
 import type { CartActions } from "../hooks/reducers/use-cart-reducer";
 
 type HeaderProps = {
@@ -7,7 +7,7 @@ type HeaderProps = {
   decreaseQuantity: (id: Guitar["id"]) => void;
   increaseQuantity: (id: Guitar["id"]) => void;
   clearCart: () => void;
-  dispatch: React.Dispatch<CartActions>
+  dispatch: React.Dispatch<CartActions>;
 };
 
 export default function Header({ cart, decreaseQuantity, increaseQuantity, clearCart, dispatch }: HeaderProps) {
@@ -52,7 +52,7 @@ export default function Header({ cart, decreaseQuantity, increaseQuantity, clear
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => decreaseQuantity(guitar.id)}
+                                onClick={() => dispatch({type:'decrease-quantity', payload:{item: guitar.id}})}
                               >
                                 -
                               </button>
@@ -60,7 +60,7 @@ export default function Header({ cart, decreaseQuantity, increaseQuantity, clear
                               <button
                                 type="button"
                                 className="btn btn-dark"
-                                onClick={() => increaseQuantity(guitar.id)}
+                                onClick={() => dispatch({ type: "increase-quantity", payload: { item: guitar.id } })}
                               >
                                 +
                               </button>
@@ -69,7 +69,7 @@ export default function Header({ cart, decreaseQuantity, increaseQuantity, clear
                               <button
                                 className="btn btn-danger"
                                 type="button"
-                                onClick={() => dispatch({type: 'remove-from-cart', payload:{item: guitar.id}})}
+                                onClick={() => dispatch({ type: "remove-from-cart", payload: { item: guitar.id } })}
                               >
                                 X
                               </button>
